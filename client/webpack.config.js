@@ -7,11 +7,11 @@ module.exports = () => {
   return {
     mode: 'development',
     entry: {
-      main: '/src/js/index.js',
-      install: '/src/js/install.js',
-      database: '/src/js/database.js',
-      editor: '/src/js/editor.js',
-      header: '/src/js/header.js',
+      main: './src/js/index.js',
+      install: './src/js/install.js',
+      database: './src/js/database.js',
+      editor: './src/js/editor.js',
+      header: './src/js/header.js',
     },
     output: {
       filename: '[name].bundle.js',
@@ -33,7 +33,7 @@ module.exports = () => {
           {
             src: path.resolve(__dirname, 'src/images/logo.png'), // Corrected path
             sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join('icons'),
+            destination: path.join('assets', 'icons'),
           },
         ],
       }),
