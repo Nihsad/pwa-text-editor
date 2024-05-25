@@ -16,12 +16,12 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: '.src/index.html',
+        template: './src/index.html', // Corrected path
         chunks: ['main'],
         filename: 'index.html'
       }),
       new HtmlWebpackPlugin({
-        template: '.src/install.html',
+        template: './src/install.html', // Corrected path
         chunks: ['install'],
         filename: 'install.html'
       }),
@@ -41,7 +41,7 @@ module.exports = () => {
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: 'sw.js',
-        }),
+      }),
     ],
 
     module: {
