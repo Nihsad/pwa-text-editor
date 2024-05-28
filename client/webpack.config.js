@@ -29,11 +29,16 @@ module.exports = () => {
         description: 'A simple text editor for your web browser.',
         background_color: '#ffffff',
         theme_color: '#ffffff',
+        fingerprints: false, // Disable hashing for manifest and icons
+        inject: true, // Inject manifest link into HTML
+        publicPath: './', // Ensure the correct path
+        filename: 'manifest.json', // Ensure the filename is just 'manifest.json'
         icons: [
           {
             src: path.resolve(__dirname, 'src/images/logo.png'), // Corrected path
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
+            purpose: 'any maskable', // Specify the purpose of the icons
           },
         ],
       }),
