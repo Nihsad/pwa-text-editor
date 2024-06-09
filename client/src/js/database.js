@@ -48,7 +48,9 @@ export const getDb = async () => {
     // Access the object store
     const store = tx.objectStore('jate');
     // Retrieve all content from the object store
-    return store.getAll();
+    const data = await store.getAll();
+    // Ensure the content is a string before returning
+    return data && data.length ? data[0].content : '';
   } catch (error) {
     console.error('Error retrieving content from IndexedDB:', error);
     throw error; // Rethrow the error for handling in higher-level code
