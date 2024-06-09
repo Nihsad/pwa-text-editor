@@ -1,31 +1,59 @@
 import { openDB } from 'idb';
 
-const initdb = async () =>
-  openDB('jate', 1, {
-    upgrade(db) {
-      if (db.objectStoreNames.contains('jate')) {
-        console.log('jate database already exists');
-        return;
-      }
-      db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
-      console.log('jate database created');
-    },
-  });
+// Function to initialize the IndexedDB database
+const initDB = async () => {
+  try {
+    // Open or create the 'jate' database with version 1
+    const db = await openDB('jate', 1, {
+      upgrade(db) {
+        // Create an object store named 'jate' with auto-incrementing key
+        if (!db.objectStoreNames.contains('jate')) {
+          const store = db.createObjectStore('jate', { keyPath: 'id', autoIncrement: true });
+          // Optionally, add indexes or perform other schema changes here
+          console.log('jate database created');
+        }
+      },
+    });
+    return db;
+  } catch (error) {
+    console.error('Error initializing IndexedDB:', error);
+    throw error; // Rethrow the error for handling in higher-level code
+  }
+};
 
-// logic to a method that accepts some content and adds it to the database
+// Function to add content to the database
 export const putDb = async (content) => {
-  const db = await initdb();
-  const tx = db.transaction('jate', 'readwrite');
-  const store = tx.objectStore('jate');
-  await store.add({ content });
+  try {
+    // Initialize the database
+    const db = await initDB();
+    // Start a read-write transaction
+    const tx = db.transaction('jate', 'readwrite');
+    // Access the object store
+    const store = tx.objectStore('jate');
+    // Add the content to the object store
+    await store.add({ content });
+  } catch (error) {
+    console.error('Error adding content to IndexedDB:', error);
+    throw error; // Rethrow the error for handling in higher-level code
+  }
 };
 
-// logic for a method that gets all the content from the database
+// Function to get all content from the database
 export const getDb = async () => {
-  const db = await initdb();
-  const tx = db.transaction('jate', 'readonly');
-  const store = tx.objectStore('jate');
-  return store.getAll();
+  try {
+    // Initialize the database
+    const db = await initDB();
+    // Start a read-only transaction
+    const tx = db.transaction('jate', 'readonly');
+    // Access the object store
+    const store = tx.objectStore('jate');
+    // Retrieve all content from the object store
+    return store.getAll();
+  } catch (error) {
+    console.error('Error retrieving content from IndexedDB:', error);
+    throw error; // Rethrow the error for handling in higher-level code
+  }
 };
 
-initdb();
+// Immediately initialize the database when this module is loaded
+initDB();
